@@ -123,9 +123,9 @@ class MainTestCase(BaseTestCase):
             filename='test.jpg', filename_s='test_s.jpg', filename_m='test_m.jpg', description='Photo 5', author=user
         )
         now = datetime.now()
-        photo3.timestamp = now
-        photo4.timestamp = now + timedelta(seconds=1)
-        photo5.timestamp = now + timedelta(seconds=2)
+        photo3.created_at = now
+        photo4.created_at = now + timedelta(seconds=1)
+        photo5.created_at = now + timedelta(seconds=2)
         db.session.add_all([photo3, photo4, photo5])
         db.session.commit()
 
@@ -153,9 +153,9 @@ class MainTestCase(BaseTestCase):
             filename='test.jpg', filename_s='test_s.jpg', filename_m='test_m.jpg', description='Photo 5', author=user
         )
         now = datetime.now()
-        photo3.timestamp = now
-        photo4.timestamp = now + timedelta(seconds=1)
-        photo5.timestamp = now + timedelta(seconds=2)
+        photo3.created_at = now
+        photo4.created_at = now + timedelta(seconds=1)
+        photo5.created_at = now + timedelta(seconds=2)
         db.session.add_all([photo3, photo4, photo5])
         db.session.commit()
 
