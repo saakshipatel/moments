@@ -1,54 +1,86 @@
-# Moments
+# Moments - ML-Enhanced Photo Sharing Application
 
-A photo sharing social networking app built with Python and Flask. The example application for the book *[Python Web Development with Flask (2nd edition)](https://helloflask.com/en/book/4)* (《[Flask Web 开发实战（第 2 版）](https://helloflask.com/book/4)》).
+## ML Features
+This application has been enhanced with Google Cloud Vision API to provide :
+1. **Automatic Alternative Text Generation** - For accessibility
+2. **Smart Image Search** - Search photos by detected objects
 
 Demo: http://moments.helloflask.com
 
-![Screenshot](demo.png)
+## Setup Instructions
 
-## Installation
+### Prerequisites
+- Python 3.8 or higher
+- Google Cloud account with Vision API enabled
+- Git
 
-Clone the repo:
+### Installation Steps
 
-```
-$ git clone https://github.com/greyli/moments
-$ cd moments
-```
+1. **Clone the repository**
 
-Install dependencies with [PDM](https://pdm.fming.dev):
+   git clone https://github.com/saakshipatel/moments.git
+   cd moments
 
-```
-$ pdm install
-```
+2. **Set up Python environment**
 
-> [!TIP]
-> If you don't have PDM installed, you can create a virtual environment with `venv` and install dependencies with `pip install -r requirements.txt`.
+   python -m venv venv
+   source venv/bin/activate  
+   # On Windows: venv\Scripts\activate
 
-To initialize the app, run the `flask init-app` command:
+3. **Install dependencies**
 
-```
-$ pdm run flask init-app
-```
+   pip install -r requirements.txt
+   pip install google-cloud-vision python-dotenv Pillow
 
-If you just want to try it out, generate fake data with `flask lorem` command then run the app:
+4. **Configure Google Cloud Vision API**
 
-```
-$ pdm run flask lorem
-```
+   Go to Google Cloud Console
+   Create a new project or select existing and Enable Cloud Vision API
+   Download credentials JSON file
+   Save as google-credentials.json in project root
 
-It will create a test account:
+5. **Set up environment variables**
 
-* email: `admin@helloflask.com`
-* password: `moments`
+   Create a .env file in project root :
+   GOOGLE_APPLICATION_CREDENTIALS=google-credentials.json
 
-Now you can run the app:
+6. **Initialize the database**
 
-```
-$ pdm run flask run
-* Running on http://127.0.0.1:5000/
-```
+   flask init-app
+   flask lorem  
 
-## License
+7. **Run the application**
 
-This project is licensed under the MIT License (see the
-[LICENSE](LICENSE) file for details).
+   flask run
+   Visit: http://127.0.0.1:5000
+
+8. **Test Credentials**
+
+   Email : admin@helloflask.com
+   Password : moments
+
+9. **Project Structure**
+
+   ml_service.py - Google Vision API integration
+   models.py - Database models with ML fields
+   blueprints/main.py - Routes including upload and search
+   templates/ - HTML templates with alt text support
+
+10. **Security Note**
+
+   Never commit google-credentials.json or .env to version control!
+
+11. **Commit Your Changes**
+
+   Check what files will be committed
+   git status
+
+   # Make sure google-credentials.json is NOT in the list
+   # If it appears, add to .gitignore first
+
+   git add .
+   git commit -m "Add ML-powered alt text and image search using Google Cloud Vision API"
+   git push origin main
+   Get your commit hash:
+   bashgit log -1 --format="%H"
+

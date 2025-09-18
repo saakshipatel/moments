@@ -292,6 +292,11 @@ class Photo(db.Model):
     can_comment: Mapped[bool] = mapped_column(default=True)
     flag: Mapped[int] = mapped_column(default=0)
 
+    alt_text: Mapped[Optional[str]] = mapped_column(String(500), default='')
+    detected_objects: Mapped[Optional[str]] = mapped_column(Text, default='')
+    detected_text: Mapped[Optional[str]] = mapped_column(Text, default='')
+    dominant_colors: Mapped[Optional[str]] = mapped_column(String(200), default='')
+
     author_id: Mapped[int] = mapped_column(ForeignKey('user.id', ondelete='CASCADE'))
 
     author: Mapped['User'] = relationship(back_populates='photos')

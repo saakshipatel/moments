@@ -170,3 +170,7 @@ uploads/avatars/*
 logs/*
 !logs/.gitkeep
 whooshee
+google-credentials.json 
+.env 
+google-credentials.json 
+.env 

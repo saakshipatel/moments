@@ -30,9 +30,14 @@
       <div class="card-body">
         <div class="text-center">
           <a class="thumbnail" href="{{ url_for('.show_photo', photo_id=photo.id) }}" target="_blank">
-            <img class="img-fluid" src="{{ url_for('.get_image', filename=photo.filename_m) }}">
+            <img class="img-fluid" src="{{ url_for('.get_image', filename=photo.filename_m) }}" alt="{{ photo.alt_text or 'User uploaded photo' }}" title="{{ photo.alt_text }}">
           </a>
         </div>
+        {% if photo.detected_objects %}
+        <div class="mt-2 text-muted small">
+            <strong>Detected:</strong> {{ photo.detected_objects }}
+        </div>
+        {% endif %}
       </div>
       <div class="card-footer">
         {{ render_icon('suit-heart-fill') }}

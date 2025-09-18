@@ -9,6 +9,9 @@ from moments.forms.main import CommentForm, DescriptionForm, TagForm
 from moments.models import Collection, Comment, Follow, Notification, Photo, Tag, User
 from moments.notifications import push_collect_notification, push_comment_notification
 from moments.utils import flash_errors, redirect_back, rename_image, resize_image, validate_image
+from ml_service import ml_service
+import os 
+import json
 
 main_bp = Blueprint('main', __name__)
 
@@ -49,7 +52,7 @@ def explore():
 
 @main_bp.route('/search')
 def search():
-    q = request.args.get('q').strip()
+    q = request.args.get('q', '').strip().lower()
     if not q:
         flash('Enter keyword about photo, user or tag.', 'warning')
         return redirect_back()
@@ -57,13 +60,23 @@ def search():
     category = request.args.get('category', 'photo')
     page = request.args.get('page', 1, type=int)
     per_page = current_app.config['MOMENTS_SEARCH_RESULT_PER_PAGE']
-    # TODO: add SQLAlchemy 2.x support to Flask-Whooshee then update the following code
+    
     if category == 'user':
         pagination = User.query.whooshee_search(q).paginate(page=page, per_page=per_page)
     elif category == 'tag':
         pagination = Tag.query.whooshee_search(q).paginate(page=page, per_page=per_page)
     else:
-        pagination = Photo.query.whooshee_search(q).paginate(page=page, per_page=per_page)
+        # Enhanced photo search with ML fields
+        stmt = select(Photo).filter(
+            db.or_(
+                Photo.detected_objects.contains(q),
+                Photo.description.contains(q),
+                Photo.detected_text.contains(q),
+                Photo.alt_text.contains(q)
+            )
+        ).order_by(Photo.created_at.desc())
+        pagination = db.paginate(stmt, page=page, per_page=per_page)
+    
     results = pagination.items
     return render_template('main/search.html', q=q, results=results, pagination=pagination, category=category)
 
@@ -129,15 +142,31 @@ def upload():
         f = request.files.get('file')
         if not validate_image(f.filename):
             return 'Invalid image.', 400
+        
         filename = rename_image(f.filename)
-        f.save(current_app.config['MOMENTS_UPLOAD_PATH'] / filename)
+        file_path = current_app.config['MOMENTS_UPLOAD_PATH'] / filename
+        f.save(file_path)
         filename_s = resize_image(f, filename, current_app.config['MOMENTS_PHOTO_SIZES']['small'])
         filename_m = resize_image(f, filename, current_app.config['MOMENTS_PHOTO_SIZES']['medium'])
+        
+        # Process with ML service
+        print(f"Processing image with ML: {file_path}")
+        analysis = ml_service.get_detailed_analysis(str(file_path))
+        
+        # Create photo with ML data
         photo = Photo(
-            filename=filename, filename_s=filename_s, filename_m=filename_m, author=current_user._get_current_object()
+            filename=filename, 
+            filename_s=filename_s, 
+            filename_m=filename_m, 
+            author=current_user._get_current_object(),
+            alt_text=analysis['alt_text'],
+            detected_objects=','.join(analysis['objects']) if analysis['objects'] else '',
+            detected_text=analysis.get('text', ''),
+            dominant_colors=json.dumps(analysis.get('dominant_colors', []))[:200]
         )
         db.session.add(photo)
         db.session.commit()
+        
     return render_template('main/upload.html')
 
 
