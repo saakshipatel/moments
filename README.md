@@ -23,47 +23,47 @@ Demo: http://moments.helloflask.com
 
 3. **Set up Python environment**
 
-   python -m venv venv
-   source venv/bin/activate  
+   python -m venv venv <br>
+   source venv/bin/activate <br>  
    # On Windows: venv\Scripts\activate
 
 4. **Install dependencies**
 
-   pip install -r requirements.txt
+   pip install -r requirements.txt <br>
    pip install google-cloud-vision python-dotenv Pillow
 
 5. **Configure Google Cloud Vision API**
 
-   Go to Google Cloud Console
-   Create a new project or select existing and Enable Cloud Vision API
-   Download credentials JSON file
-   Save as google-credentials.json in project root
+   Go to Google Cloud Console <br>
+   Create a new project or select existing and Enable Cloud Vision API <br>
+   Download credentials JSON file <br>
+   Save as google-credentials.json in project root <br>
 
 6. **Set up environment variables**
 
-   Create a .env file in project root :
+   Create a .env file in project root : <br>
    GOOGLE_APPLICATION_CREDENTIALS=google-credentials.json
 
 7. **Initialize the database**
 
-   flask init-app
-   flask lorem  
+   flask init-app <br>
+   flask lorem 
 
 8. **Run the application**
 
-   flask run
+   flask run <br>
    Visit: http://127.0.0.1:5000
 
 9. **Test Credentials**
 
-   Email : admin@helloflask.com
+   Email : admin@helloflask.com <br>
    Password : moments
 
 10. **Project Structure**
 
-   ml_service.py - Google Vision API integration
-   models.py - Database models with ML fields
-   blueprints/main.py - Routes including upload and search
+   ml_service.py - Google Vision API integration <br>
+   models.py - Database models with ML fields <br>
+   blueprints/main.py - Routes including upload and search <br>
    templates/ - HTML templates with alt text support
 
 11. **Security Note**
@@ -72,15 +72,15 @@ Demo: http://moments.helloflask.com
 
 11. **Commit Your Changes**
 
-   Check what files will be committed
+   Check what files will be committed <br>
    git status
 
    # Make sure google-credentials.json is NOT in the list
    # If it appears, add to .gitignore first
 
-   git add .
-   git commit -m "Add ML-powered alt text and image search using Google Cloud Vision API"
-   git push origin main
-   Get your commit hash:
+   git add . <br>
+   git commit -m "Add ML-powered alt text and image search using Google Cloud Vision API" <br>
+   git push origin main <br>
+   Get your commit hash: <br>
    bashgit log -1 --format="%H"
 
