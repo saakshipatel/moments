@@ -82,5 +82,5 @@ Demo: http://moments.helloflask.com
    git commit -m "Add ML-powered alt text and image search using Google Cloud Vision API" <br>
    git push origin main <br>
    Get your commit hash: <br>
-   bashgit log -1 --format="%H"
+   git log -1 --format="%H"
 
