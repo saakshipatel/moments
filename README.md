@@ -18,7 +18,7 @@ Demo: http://moments.helloflask.com
 
 1. **Clone the repository**
 
-   git clone https://github.com/saakshipatel/moments.git \\
+   git clone https://github.com/saakshipatel/moments.git //
    cd moments
 
 2. **Set up Python environment**
