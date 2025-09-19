@@ -18,55 +18,56 @@ Demo: http://moments.helloflask.com
 
 1. **Clone the repository**
 
-   git clone https://github.com/saakshipatel/moments.git \n
+   git clone https://github.com/saakshipatel/moments.git
+   
    cd moments
 
-2. **Set up Python environment**
+3. **Set up Python environment**
 
    python -m venv venv
    source venv/bin/activate  
    # On Windows: venv\Scripts\activate
 
-3. **Install dependencies**
+4. **Install dependencies**
 
    pip install -r requirements.txt
    pip install google-cloud-vision python-dotenv Pillow
 
-4. **Configure Google Cloud Vision API**
+5. **Configure Google Cloud Vision API**
 
    Go to Google Cloud Console
    Create a new project or select existing and Enable Cloud Vision API
    Download credentials JSON file
    Save as google-credentials.json in project root
 
-5. **Set up environment variables**
+6. **Set up environment variables**
 
    Create a .env file in project root :
    GOOGLE_APPLICATION_CREDENTIALS=google-credentials.json
 
-6. **Initialize the database**
+7. **Initialize the database**
 
    flask init-app
    flask lorem  
 
-7. **Run the application**
+8. **Run the application**
 
    flask run
    Visit: http://127.0.0.1:5000
 
-8. **Test Credentials**
+9. **Test Credentials**
 
    Email : admin@helloflask.com
    Password : moments
 
-9. **Project Structure**
+10. **Project Structure**
 
    ml_service.py - Google Vision API integration
    models.py - Database models with ML fields
    blueprints/main.py - Routes including upload and search
    templates/ - HTML templates with alt text support
 
-10. **Security Note**
+11. **Security Note**
 
    Never commit google-credentials.json or .env to version control!
 
